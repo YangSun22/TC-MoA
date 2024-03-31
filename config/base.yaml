@@ -1,0 +1,51 @@
+#GPU setting
+device: cuda
+
+
+
+#Training setting
+seed: 0
+upsample: true             #Whether to upsample 2x in the network
+lr: 1.5e-4                 #Initial learning rate
+min_lr: 1.0e-6             #Minimum value of progressively decreasing learning rate
+num_workers: 3
+weight_decay: 0.05
+
+epochs: 20                 #Total number of training epochs required
+warmup_epochs: 2           #Warm-up epochs
+load_start_epoch: 0        #Only necessary if you need to retrain at breakpoints: read parameters from i-th epoch, to facilitate the calculation of learning rate and other hyperparameters
+
+
+log_dir: ./output/log/     #Path to save the log
+output_dir: ./output/      #Paths to the output model
+output_img_dir: ./output/img/  #Path to output intermediate fusion results
+pretrain_weight_path: /home/yangsun/TC-MoA_Camera_Ready/checkpoint/mae_visualize_vit_large_ganloss.pth  #Path to the parameters of the pre-trained base model
+ckp_path: None             #Only required if breakpoint retraining is needed: Path of TC-MoA model parameters to be imported.
+save_img_interval: 64      #Iteration interval for outputting intermediate fusion results
+
+
+#model setting
+method_name: TC_MoA_Base   #The name given to the current model when saving the model
+batch_size: 3              #Dataset batch size for each task
+use_ema: true              #Whether to use EMA
+interval_tau: 4            #tau hyperparameter: represents the number of Blocks between two TC-MoA modules
+task_num: 3                #Total number of tasks
+tau_shift_value: 2         #Specific position of TC-MoA in each tau block
+shift_window_size: 14      #Size of winodw in windowsAttention (in patches)
+model_type: mae_vit_large_patch16   # mae_vit_large_patch16 or mae_vit_base_patch16
+
+#Task setting
+VIF: true                  #Whether or not to train the VIF task
+VIF_dataset_dict:          #Name and path of the datasets to be trained
+  LLVIP: /home/yangsun/TC-MoA_Camera_Ready/dataset/train/LLVIP
+arbitrary_input_size: false
+
+MEF: true                  #Whether or not to train the MEF task
+MEF_dataset_dict:
+  SCIE: /home/yangsun/TC-MoA_Camera_Ready/dataset/train/SCIE
+
+MFF: true                  #Whether or not to train the MFF task
+MFF_dataset_dict:
+  RealMFF: /home/yangsun/TC-MoA_Camera_Ready/dataset/train/RealMFF
+  MFI-WHU: /home/yangsun/TC-MoA_Camera_Ready/dataset/train/MFI-WHU
+

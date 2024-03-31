@@ -1,0 +1,38 @@
+#GPU setting
+device: cuda
+
+#Testing setting
+waiting_time: 0
+upsample: true
+more_detail: '_No_Win'
+upsample: True
+hasWindows: False
+
+#model setting
+method_name: TC_MoA_Base
+use_ema: true
+interval_tau: 4
+task_num: 3
+tau_shift_value: 2
+shift_window_size: 14
+model_type: mae_vit_large_patch16
+warmup_epochs: 2
+
+# Name and path of the datasets to be predicted
+EvalDataSet: 
+  LLVIP_Test: /home/yangsun/TC-MoA_Camera_Ready/dataset/test/LLVIP_Test
+  MEF: /home/yangsun/TC-MoA_Camera_Ready/dataset/test/MEF_test/
+  MFF: /home/yangsun/TC-MoA_Camera_Ready/dataset/test/MFF_test/
+  MandP: /home/yangsun/TC-MoA_Camera_Ready/dataset/test/MedicalAndPan
+  TNO: /home/yangsun/TC-MoA_Camera_Ready/dataset/test/TNO
+
+# The folder where the checkpoints are located
+chkpt_dir: /home/yangsun/TC-MoA_Camera_Ready/output
+# The names of the checkpoints to be predicted and the network structure used
+ckpt_dict:
+  checkpoint-0-TC_MoA_Base_test.pth : Base
+# Where the prediction results are saved
+result_path: ./result/
+
+
+

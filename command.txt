@@ -1,0 +1,13 @@
+
+# train
+CUDA_VISIBLE_DEVICES=0,1,5 CUDA_LAUNCH_BLOCKING=1 NCCL_P2P_LEVEL=NVL nohup python -m torch.distributed.launch \
+    --nproc_per_node 3 --master_port 22222 \
+    main_train.py --config_path ./config/base.yaml \
+     > test.log 2>&1 & 
+
+# test
+CUDA_VISIBLE_DEVICES=6 python  main_predict.py --config_path ./config/predict.yaml 
+    
+
+# kill 
+ps aux | grep main_train.py  |  awk '{print $2}' | xargs kill -9
