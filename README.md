@@ -19,8 +19,11 @@ from MAE ([GitHub - facebookresearch/mae: PyTorch implementation of MAE https//a
 ```
 
 #### -dataset:
+baiduYun:
+Train: https://pan.baidu.com/s/1PWCb7l2FEaO6B_vrWowVQQ?pwd=solx Code:【solx】
+Test: 链接：https://pan.baidu.com/s/1LDCU7c087OqMhUgmnY0cZA?pwd=3pya Code:【3pya】
 
-baiduYun and GoogleDrive TBA
+and GoogleDrive TBA
 
 ## Environment Installation
 
@@ -60,6 +63,8 @@ CUDA_VISIBLE_DEVICES=0,1,2 CUDA_LAUNCH_BLOCKING=1 NCCL_P2P_LEVEL=NVL nohup pytho
 ```
 
 ## Test
+CheckPoint DownLoad：https://pan.baidu.com/s/1PqS3MwaQTrlP14g4ZSCiaQ?pwd=ht8a Code:【ht8a】
+AddM3FD is to alleviate the problem of LLVIP IR scenes being too homogeneous, resulting in poor fusion during the daytime.
 
 ```
 CUDA_VISIBLE_DEVICES=0 python  main_predict.py --config_path ./config/predict.yaml 
