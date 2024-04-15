@@ -63,7 +63,7 @@ CUDA_VISIBLE_DEVICES=0,1,2 CUDA_LAUNCH_BLOCKING=1 NCCL_P2P_LEVEL=NVL nohup pytho
 ```
 
 ## Test
-CheckPoint DownLoad：https://pan.baidu.com/s/1PqS3MwaQTrlP14g4ZSCiaQ?pwd=ht8a Code:【ht8a】
+CheckPoint DownLoad：TBA
 AddM3FD is to alleviate the problem of LLVIP IR scenes being too homogeneous, resulting in poor fusion during the daytime.
 
 ```
