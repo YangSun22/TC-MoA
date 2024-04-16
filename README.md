@@ -2,7 +2,7 @@
 
 This is the official code for the paper Task-Customized Mixture of Adapters for General Image Fusion, the link to the paper is https://arxiv.org/abs/2403.12494.
 
-Next Update before 20240310
+Next Update before 20240420
 
 ## Preparation
 
