@@ -2,7 +2,6 @@
 
 This is the official code for the paper Task-Customized Mixture of Adapters for General Image Fusion, the link to the paper is https://arxiv.org/abs/2403.12494.
 
-Next Update before 20240420
 
 ## Preparation
 
@@ -19,10 +18,7 @@ from MAE ([GitHub - facebookresearch/mae: PyTorch implementation of MAE https//a
 ```
 
 #### -dataset:
-baiduYun:
-Train: https://pan.baidu.com/s/1PWCb7l2FEaO6B_vrWowVQQ?pwd=solx Code:【solx】
-Test: 链接：https://pan.baidu.com/s/1LDCU7c087OqMhUgmnY0cZA?pwd=3pya Code:【3pya】
-
+baiduYun: https://pan.baidu.com/s/1R2R58PjJuMaS2P4uwlTBqg?pwd=hyqv  Code:【hyqv】
 and GoogleDrive TBA
 
 ## Environment Installation
@@ -34,21 +30,21 @@ To be update
 ```
 conda create -n tcmoa python=3.7 
 conda activate tcmoa
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple numpy==1.21.6
-pip install torchvision-0.10.0+cu111-cp37-cp37m-linux_x86_64.whl -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install -i https://pypi.tuna.tsinghua.edu.cn/simple safetensors
-pip install setuptools==59.5.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install scipy==1.2.1 -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install timm==0.3.2  -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install tensorboard -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install six -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install opencv-python -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install h5py -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install einops -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install  numpy==1.21.6
+pip install torchvision-0.10.0+cu111-cp37-cp37m-linux_x86_64.whl 
+pip install  safetensors
+pip install setuptools==59.5.0 
+pip install scipy==1.2.1 
+pip install timm==0.3.2  
+pip install tensorboard 
+pip install six 
+pip install opencv-python 
+pip install h5py 
+pip install einops 
 
 scikit-image-0.17.2
-pip install  -i https://pypi.tuna.tsinghua.edu.cn/simple scikit-image
-pip install  -i https://pypi.tuna.tsinghua.edu.cn/simple kornia==0.6.5
+pip install   scikit-image
+pip install   kornia==0.6.5
 if BUG: use follow:
 import collections.abc as container_abcs
 ```
@@ -61,11 +57,16 @@ CUDA_VISIBLE_DEVICES=0,1,2 CUDA_LAUNCH_BLOCKING=1 NCCL_P2P_LEVEL=NVL nohup pytho
     main_train.py --config_path ./config/base.yaml \
      > test.log 2>&1 & 
 ```
-
 ## Test
-CheckPoint DownLoad：TBA
-AddM3FD is to alleviate the problem of LLVIP IR scenes being too homogeneous, resulting in poor fusion during the daytime.
-
 ```
 CUDA_VISIBLE_DEVICES=0 python  main_predict.py --config_path ./config/predict.yaml 
+```
+
+```
+@inproceedings{zhu2024taskcustomized,
+  title={Task-Customized Mixture of Adapters for General Image Fusion},
+  author={Pengfei Zhu and Yang Sun and Bing Cao and Qinghua Hu},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  year={2024}
+}
 ```
