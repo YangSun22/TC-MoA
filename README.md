@@ -19,7 +19,9 @@ from MAE ([GitHub - facebookresearch/mae: PyTorch implementation of MAE https//a
 
 #### -dataset:
 baiduYun: https://pan.baidu.com/s/1R2R58PjJuMaS2P4uwlTBqg?pwd=hyqv  Code:【hyqv】
-and GoogleDrive TBA
+
+#### -ckp:
+https://pan.baidu.com/s/19u8OgMQbQqfvNyaDkmRlNQ?pwd=iqzf Code:【iqzf】
 
 ## Environment Installation
 
