@@ -6,7 +6,7 @@ waiting_time: 0
 upsample: true
 more_detail: '_No_Win'
 upsample: True
-hasWindows: False
+hasWindows: True
 
 #model setting
 method_name: TC_MoA_Base
