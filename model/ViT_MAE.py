@@ -340,9 +340,23 @@ class MaskedAutoencoderViT(nn.Module):
 
                 fusion_xt = x_MoA+t_MoA
                 fusion_xt = self.de_FusionLayer[block_group_index] (fusion_xt,H, W)
+
+                mean_x, std_x = torch.mean(x, dim=(1, 2), keepdim=True), torch.std(x, dim=(1, 2), keepdim=True)
+                mean_t, std_t = torch.mean(t, dim=(1, 2), keepdim=True), torch.std(t, dim=(1, 2), keepdim=True)
             
                 x = fusion_xt*self.Alpha_decoder[block_group_index] + (1-self.Alpha_decoder[block_group_index])*x
                 t = fusion_xt*self.Alpha_decoder[block_group_index] + (1-self.Alpha_decoder[block_group_index])*t
+
+                mean_x_new, std_x_new = torch.mean(x, dim=(1, 2), keepdim=True), torch.std(x, dim=(1, 2), keepdim=True)
+                mean_t_new, std_t_new = torch.mean(t, dim=(1, 2), keepdim=True), torch.std(t, dim=(1, 2), keepdim=True)
+
+                x = (x - mean_x_new) * (std_x / (std_x_new + 1e-12)) + mean_x
+                t = (t - mean_t_new) * (std_t / (std_t_new + 1e-12)) + mean_t
+
+                # mean_x, std_x = torch.mean(x, dim=(1, 2), keepdim=True), torch.std(x, dim=(1, 2), keepdim=True)
+                # mean_control, std_control = torch.mean(conditional_controls, dim=(1, 2, 3), keepdim=True), torch.std(conditional_controls, dim=(1, 2, 3), keepdim=True)
+                # conditional_controls = (conditional_controls - mean_control) * (std_latents / (std_control + 1e-12)) + mean_latents
+                # sample = sample + conditional_controls * scale
 
         
         x = self.decoder_norm(x)
@@ -388,7 +402,8 @@ class MaskedAutoencoderViT(nn.Module):
         
         if epoch<self.warmup_epochs:
             pixel_loss =  self.PixelLoss(pred_img,img_rgb,img_t)
-            loss = pixel_loss+ 20*prompt_loss +ssim_loss +aux_loss
+
+            loss = pixel_loss+ prompt_loss +ssim_loss +aux_loss/(epoch+1)
             loss = {
                 "loss":loss,
                 "aux_loss":aux_loss,
@@ -399,7 +414,7 @@ class MaskedAutoencoderViT(nn.Module):
         else:
             max_grad_loss = self.MaxGradLoss(pred_img,img_rgb,img_t) 
             max_pixel_loss = self.MaxPixelLoss(pred_img,img_rgb,img_t)
-            loss = max_grad_loss+ max_pixel_loss + 20*prompt_loss +0.5*ssim_loss +aux_loss
+            loss = 1.5*max_grad_loss+ 1.5*max_pixel_loss + prompt_loss +2*ssim_loss +aux_loss/(epoch+1)
             loss = {"loss":loss,
                 "aux_loss":aux_loss,
                 "ssim_loss":ssim_loss,
@@ -430,7 +445,12 @@ class MaskedAutoencoderViT(nn.Module):
             ssim_loss=(ssim_loss_rgb+ssim_loss_t)/2
             pixel_loss =   self.PixelLoss(pred_img,img_rgb,img_t)
             
-            loss =   pixel_loss + 20*prompt_loss +ssim_loss +aux_loss
+            # ssim_loss=(ssim_loss_rgb+5*ssim_loss_t)/6
+
+            # pixel_loss =  (self.MaxPixelLoss(pred_img,img_rgb,None) + 5*self.MaxPixelLoss(pred_img,img_t,None))/6
+            # #self.PixelLoss(pred_img,img_rgb,img_t)
+
+            loss =   pixel_loss + prompt_loss +ssim_loss +aux_loss/(epoch+1)
             loss = {"loss":loss,
                 "ssim_loss":ssim_loss,
                 "pixel_loss":pixel_loss,
@@ -445,7 +465,7 @@ class MaskedAutoencoderViT(nn.Module):
             MEF_SSIM_loss = 1-self.MEFSSIM(pred_img_MEF.unsqueeze(0),torch.stack([img_rgb_MEF,img_t_MEF],dim=0))
             
             max_grad_loss = self.MaxGradLoss(pred_img,img_rgb,img_t)
-            loss =  1.2*(max_grad_loss +  20*prompt_loss + MEF_SSIM_loss+aux_loss+pixel_loss)
+            loss =  1.8*(max_grad_loss +  prompt_loss + 2*MEF_SSIM_loss+pixel_loss) +aux_loss/(epoch+1)
             loss = {"loss":loss,
                 "pixel_loss":pixel_loss,
                 "MEF_SSIM_loss":MEF_SSIM_loss,
@@ -458,6 +478,7 @@ class MaskedAutoencoderViT(nn.Module):
 
     # SSIM + Grad +MaxPixel
     def forward_loss_taskMFF(self, img_rgb,img_t, pred, prompt,epoch,aux_loss):
+        
         B,C,H,W = img_rgb.shape
         if self.upsample:
             pred_img =   F.interpolate(pred, size=(H,W))
@@ -477,7 +498,8 @@ class MaskedAutoencoderViT(nn.Module):
         ssim_loss=ssim_loss_rgb
 
         if epoch<self.warmup_epochs:
-            loss =  pixel_loss + 20*prompt_loss +ssim_loss +aux_loss
+
+            loss =  pixel_loss + prompt_loss +ssim_loss +aux_loss/(epoch+1)
             loss = {"loss":loss,
                 "ssim_loss":ssim_loss,
                 "pixel_loss":pixel_loss,
@@ -485,7 +507,7 @@ class MaskedAutoencoderViT(nn.Module):
                 "aux_loss":aux_loss,
                 }
         else:
-            loss =  5*(max_grad_loss + pixel_loss) + 20*prompt_loss +ssim_loss+aux_loss
+            loss =  20*(max_grad_loss +pixel_loss) + prompt_loss +3*ssim_loss+aux_loss/(epoch+1)
             loss = {"loss":loss,
                 "ssim_loss":ssim_loss,
                 "max_grad_loss":max_grad_loss,
