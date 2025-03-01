@@ -22,8 +22,12 @@ from MAE ([GitHub - facebookresearch/mae: PyTorch implementation of MAE https//a
 > ## dataset:
 baiduYun: https://pan.baidu.com/s/1R2R58PjJuMaS2P4uwlTBqg?pwd=hyqv  Code:【hyqv】
 
+Google Drive：https://drive.google.com/drive/folders/1yFHwmebySDmgLwImQRT-XdEVZ6HjO1Vc?usp=drive_link
+
 > ## TC-MoA ckp:
 baiduYun: https://pan.baidu.com/s/19u8OgMQbQqfvNyaDkmRlNQ?pwd=iqzf Code:【iqzf】
+
+Google Drive：https://drive.google.com/file/d/1S23P6Sw-UQMaPY16XxOnegojjEexm3ER/view?usp=drive_link
 
 Environment Installation
 ===
